@@ -1,0 +1,41 @@
+#!/bin/sh
+# aerc-oauth2 — managed by chezmoi.
+#
+# Wrapper around mutt_oauth2.py used by aerc's *-cred-cmd for the Outlook
+# (Microsoft 365) account. It does two jobs:
+#
+#  1. Serialise refreshes. aerc runs the credential command separately for
+#     receiving (source) and sending (outgoing); two concurrent token
+#     refreshes race and Microsoft's refresh-token rotation corrupts
+#     ~/.config/aerc/outlook.tokens. An atomic mkdir mutex (macOS ships no
+#     flock) lets only one invocation refresh at a time.
+#
+#  2. Emit ONLY the access token. When the token has expired mutt_oauth2.py
+#     prints human-readable "NOTICE: ..." lines to stdout *before* the
+#     token. aerc reads multi-line cred-cmd output as credential + cache
+#     duration and then fails with "invalid duration". We forward just the
+#     token: the single whitespace-free line (a JWT contains no spaces).
+set -u
+
+TOKENS="${HOME}/.config/aerc/outlook.tokens"
+HELPER="${HOME}/.local/bin/mutt_oauth2.py"
+LOCK="${HOME}/.config/aerc/.outlook.tokens.lock"
+
+# --- acquire the mutex (atomic mkdir); wait up to ~15s, then proceed so a
+#     crashed run leaving a stale lock cannot wedge mail forever ----------
+n=0
+while ! mkdir "$LOCK" 2>/dev/null; do
+	n=$((n + 1))
+	if [ "$n" -gt 150 ]; then
+		rmdir "$LOCK" 2>/dev/null || true
+		break
+	fi
+	sleep 0.1
+done
+trap 'rmdir "$LOCK" 2>/dev/null || true' EXIT INT TERM
+
+# --- fetch the token, forward only the JWT line to aerc ------------------
+out=$("$HELPER" --encryption-pipe cat --decryption-pipe cat "$TOKENS")
+status=$?
+printf '%s\n' "$out" | awk 'NF && $0 !~ /[[:space:]]/ { tok = $0 } END { if (tok != "") print tok }'
+exit "$status"

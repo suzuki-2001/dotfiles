@@ -1,0 +1,65 @@
+# gruvbox dark styleset for aerc — managed by chezmoi
+# palette: https://github.com/morhetz/gruvbox
+
+*.default = true
+*.fg      = #ebdbb2
+*.bg      = #282828
+*.selected.reverse = true
+
+error.fg     = #fb4934
+error.bold   = true
+warning.fg   = #fabd2f
+success.fg   = #b8bb26
+
+title.fg     = #282828
+title.bg     = #fabd2f
+title.bold   = true
+header.fg    = #8ec07c
+header.bold  = true
+
+# message list
+msglist_default.fg  = #ebdbb2
+msglist_unread.fg   = #fbf1c7
+msglist_unread.bold = true
+msglist_read.fg     = #928374
+msglist_flagged.fg  = #fe8019
+msglist_deleted.fg  = #665c54
+msglist_marked.fg   = #282828
+msglist_marked.bg   = #83a598
+msglist_result.fg   = #b8bb26
+msglist_*.selected.bg      = #504945
+msglist_*.selected.reverse = false
+
+# directory list
+dirlist_default.fg = #ebdbb2
+dirlist_unread.fg  = #b8bb26
+dirlist_recent.fg  = #8ec07c
+
+# status line
+statusline_default.fg = #ebdbb2
+statusline_default.bg = #3c3836
+statusline_error.fg   = #fb4934
+statusline_error.bg   = #3c3836
+statusline_warning.fg = #fabd2f
+statusline_success.fg = #b8bb26
+
+# completion popover
+completion_default.fg = #ebdbb2
+completion_default.bg = #3c3836
+completion_gutter.bg  = #504945
+completion_pill.bg    = #83a598
+
+# tabs and borders
+tab.fg          = #928374
+tab.bg          = #282828
+tab.selected.fg = #282828
+tab.selected.bg = #fabd2f
+tab.selected.bold = true
+border.fg       = #504945
+border.bg       = #282828
+
+# selectors (compose review, etc.)
+selector_default.fg = #ebdbb2
+selector_focused.fg = #282828
+selector_focused.bg = #8ec07c
+selector_chooser.fg = #fe8019
