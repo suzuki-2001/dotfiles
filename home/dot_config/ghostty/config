@@ -1,0 +1,7 @@
+# ghostty config — managed by chezmoi
+font-family = "JetBrainsMono Nerd Font"
+font-size = 14
+theme = Gruvbox Dark
+background-opacity = 0.95
+macos-titlebar-style = transparent
+window-save-state = always

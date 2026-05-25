@@ -1,0 +1,16 @@
+" minimal vimrc — managed by chezmoi
+" gruvbox colorscheme is cloned to ~/.vim/pack/themes/start/gruvbox
+" by chezmoi (.chezmoiexternal.toml).
+
+set nocompatible
+syntax on
+filetype plugin indent on
+
+set termguicolors
+set background=dark
+silent! colorscheme gruvbox
+
+set number
+set expandtab shiftwidth=4 tabstop=4
+set incsearch ignorecase smartcase
+set hidden

@@ -1,0 +1,59 @@
+# i3status config — managed by chezmoi (Linux only)
+# Reference: man i3status
+
+general {
+    colors = true
+    color_good     = "#b8bb26"
+    color_degraded = "#fabd2f"
+    color_bad      = "#fb4934"
+    interval = 5
+}
+
+order += "load"
+order += "cpu_usage"
+order += "memory"
+order += "disk /"
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "battery all"
+order += "tztime local"
+
+load {
+    format = "load %1min"
+}
+
+cpu_usage {
+    format = "cpu %usage"
+}
+
+memory {
+    format = "mem %used"
+    threshold_degraded = "1G"
+    format_degraded = "mem LOW %available"
+}
+
+disk "/" {
+    format = "disk %avail"
+}
+
+wireless _first_ {
+    format_up = "wifi %essid %quality"
+    format_down = "wifi down"
+}
+
+ethernet _first_ {
+    format_up = "eth %ip"
+    format_down = "eth down"
+}
+
+battery all {
+    format = "%status %percentage %remaining"
+    status_chr = "CHR"
+    status_bat = "BAT"
+    status_full = "FULL"
+    last_full_capacity = true
+}
+
+tztime local {
+    format = "%Y-%m-%d %H:%M"
+}
