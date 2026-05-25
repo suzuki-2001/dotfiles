@@ -1,0 +1,25 @@
+{{/* Generates ~/.config/chezmoi/chezmoi.toml on `chezmoi init`.
+     Prompts are asked once and cached. Re-ask with `chezmoi init --prompt`.
+     When run without a terminal, the defaults below are used. */}}
+{{/* Defaults are intentionally blank: no personal identifier is committed
+     to this public repo. Real values are entered once via the prompts
+     below and cached in ~/.config/chezmoi/chezmoi.toml (never committed). */}}
+{{- $name        := "" -}}
+{{- $gmail       := "" -}}
+{{- $gitEmail    := "" -}}
+{{- $outlookMail := "" -}}
+{{- if stdinIsATTY -}}
+{{-   $name        = promptStringOnce . "name"        "Full name" $name -}}
+{{-   $gmail       = promptStringOnce . "gmail"       "Personal Gmail address" $gmail -}}
+{{-   $gitEmail    = promptStringOnce . "gitEmail"    "Git commit email (GitHub noreply address recommended)" $gitEmail -}}
+{{-   $outlookMail = promptStringOnce . "outlookMail" "Organization Outlook (Microsoft 365) address (blank to skip)" $outlookMail -}}
+{{- end -}}
+
+{{/* Persist the source dir so chezmoi works without --source after init. */}}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+[data]
+    name        = {{ $name | quote }}
+    gmail       = {{ $gmail | quote }}
+    gitEmail    = {{ $gitEmail | quote }}
+    outlookMail = {{ $outlookMail | quote }}

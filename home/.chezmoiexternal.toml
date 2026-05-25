@@ -1,0 +1,18 @@
+{{/* External repos pulled in automatically on `chezmoi apply`. */}}
+
+{{/* morhetz/gruvbox — the original Vim/Neovim colorscheme.
+     Works for both ~/.vim (Vim 8 package) and Neovim (runtimepath). */}}
+[".vim/pack/themes/start/gruvbox"]
+    type = "git-repo"
+    url = "https://github.com/morhetz/gruvbox.git"
+    refreshPeriod = "168h"
+
+{{/* mutt_oauth2.py — OAuth2 token helper used by aerc for the Outlook
+     (Microsoft 365) account. aerc calls it via *-cred-cmd to get a fresh
+     XOAUTH2 access token. Tokens live in ~/.config/aerc/outlook.tokens
+     (created by `--authorize`), never in this repo. */}}
+[".local/bin/mutt_oauth2.py"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/neomutt/neomutt/main/contrib/oauth2/mutt_oauth2.py"
+    executable = true
+    refreshPeriod = "720h"

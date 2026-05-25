@@ -1,0 +1,14 @@
+{{/* Target paths (relative to $HOME) that chezmoi should NOT manage on this machine.
+     These are repo-level files (docs, license, bootstrap, Brewfile) — they
+     belong in the cloned repo, not in $HOME. */}}
+README.md
+LICENSE
+docs
+install.sh
+Brewfile
+
+{{- if ne .chezmoi.os "linux" }}
+{{/* i3 is a Linux-only window manager — skip on macOS */}}
+.config/i3
+.config/i3status
+{{- end }}

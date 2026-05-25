@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# chezmoi local state / generated config (never commit secrets)
+.chezmoistate.boltdb
+chezmoi.toml
+
+# editor scratch
+*~
+*.swp
+
+# secrets / credentials — must never be committed (safety net)
+*.tokens
+*.token
+*.pem
+*.key
+*.gpg
+*.age
+id_rsa*
+id_ecdsa*
+id_ed25519*
+.netrc
+.env
+*.secret
+secrets.*
