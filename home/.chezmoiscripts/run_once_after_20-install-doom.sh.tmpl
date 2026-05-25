@@ -1,0 +1,61 @@
+#!/usr/bin/env sh
+# Ensure Emacs and Doom Emacs are installed.
+#
+# chezmoi runs this once per machine, AFTER the dotfiles (incl. the Doom
+# config under ~/.config/doom) have been written. If it exits non-zero
+# (e.g. Emacs is missing) chezmoi does NOT record it as done, so a later
+# `chezmoi apply` retries it automatically once Emacs is available.
+set -eu
+
+DOOMDIR="${HOME}/.config/emacs"
+MIN_MAJOR=28
+
+emacs_major() {
+    command -v emacs >/dev/null 2>&1 || return 1
+    emacs --version 2>/dev/null | head -1 | grep -oE '[0-9]+' | head -1
+}
+
+major="$(emacs_major || true)"
+
+if [ -z "${major:-}" ] || [ "${major:-0}" -lt "$MIN_MAJOR" ]; then
+    echo "[doom] Emacs >= ${MIN_MAJOR} required (found: ${major:-none})."
+{{- if eq .chezmoi.os "darwin" }}
+    if command -v brew >/dev/null 2>&1; then
+        echo "[doom] installing from Brewfile..."
+        brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile"
+        major="$(emacs_major || true)"
+    else
+        echo "[doom] Homebrew not found. Install it first: https://brew.sh"
+        exit 1
+    fi
+{{- else }}
+    cat <<'EOF'
+[doom] Install a recent Emacs without root (HPCI etc.), then re-run
+       `chezmoi apply`. Options, in order of convenience:
+   module : module avail emacs && module load emacs/<version>
+   conda  : conda install -c conda-forge emacs
+   source : curl -LO https://ftp.gnu.org/gnu/emacs/emacs-29.4.tar.xz
+            tar xf emacs-29.4.tar.xz && cd emacs-29.4
+            ./configure --prefix="$HOME/.local" --with-native-compilation
+            make -j"$(nproc)" && make install
+EOF
+    exit 1
+{{- end }}
+fi
+
+if [ -z "${major:-}" ] || [ "${major:-0}" -lt "$MIN_MAJOR" ]; then
+    echo "[doom] Emacs still unavailable. Install it, then re-run 'chezmoi apply'."
+    exit 1
+fi
+
+if [ ! -e "${DOOMDIR}/bin/doom" ]; then
+    echo "[doom] cloning doomemacs -> ${DOOMDIR}"
+    git clone --depth 1 https://github.com/doomemacs/doomemacs "${DOOMDIR}"
+fi
+
+if [ ! -d "${DOOMDIR}/.local" ]; then
+    echo "[doom] running 'doom install' (first-time setup)..."
+    "${DOOMDIR}/bin/doom" install --force
+fi
+
+echo "[doom] Doom Emacs is ready."

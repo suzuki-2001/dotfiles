@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# Re-sync Doom whenever the Doom configuration changes.
+#
+# The hashes below are expanded by chezmoi at apply time. When any Doom
+# config file changes, this script's content changes too, so chezmoi
+# re-runs it (that is what `run_onchange_` means) and `doom sync` keeps
+# the installed packages in step with init.el / packages.el.
+#
+#   init.el     {{ include "dot_config/doom/init.el"     | sha256sum }}
+#   config.el   {{ include "dot_config/doom/config.el.tmpl" | sha256sum }}
+#   packages.el {{ include "dot_config/doom/packages.el" | sha256sum }}
+set -eu
+
+DOOM="${HOME}/.config/emacs/bin/doom"
+
+if [ ! -e "$DOOM" ] || [ ! -d "${HOME}/.config/emacs/.local" ]; then
+    echo "[doom] Doom not installed yet — skipping sync."
+    exit 0
+fi
+
+echo "[doom] running 'doom sync'..."
+"$DOOM" sync
