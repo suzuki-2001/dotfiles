@@ -1,0 +1,40 @@
+# ~/.gitconfig — managed by chezmoi.
+# Identity comes from chezmoi data (.chezmoi.toml.tmpl); nothing personal
+# is hard-coded into this public repo.
+[user]
+	name = {{ .name }}
+	email = {{ .gitEmail }}
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[push]
+	autoSetupRemote = true
+[core]
+	editor = vim
+[color]
+	ui = auto
+[alias]
+	st = status -sb
+	co = checkout
+	br = branch
+	ci = commit
+	lg = log --oneline --graph --decorate --all -20
+	last = log -1 HEAD --stat
+	unstage = reset HEAD --
+{{ if lookPath "delta" -}}
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+[merge]
+	conflictstyle = zdiff3
+{{ end -}}
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

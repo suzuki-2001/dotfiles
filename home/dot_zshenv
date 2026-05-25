@@ -1,0 +1,6 @@
+# Managed by chezmoi. Sourced by every zsh invocation (earliest).
+#
+# Pin XDG_CONFIG_HOME so XDG-aware tools use ~/.config consistently.
+# On macOS aerc (and some other tools) otherwise fall back to
+# ~/Library/..., diverging from the Linux/HPCI layout.
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
