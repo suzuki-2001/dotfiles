@@ -1,15 +1,69 @@
-# starship prompt — managed by chezmoi.  Reference: https://starship.rs/config/
+# Starship prompt — managed by chezmoi.
+# Classic Unix/HPC look:  [user@host dir branch state]$
+# Single-line · no bold · subdued gruvbox grays.
+# Reference: https://starship.rs/config/
+
 add_newline = true
 command_timeout = 1000
 
+format = '[\[](#928374)$username$hostname$directory$git_branch$git_status$conda$cmd_duration[\]](#928374)$character '
+
+right_format = '[$time]($style)'
+
+[character]
+success_symbol = '[\$](#b57614)'
+error_symbol   = '[\$](#cc241d)'
+vimcmd_symbol  = '[\$](#79740e)'
+
 [directory]
-truncation_length = 4
-truncate_to_repo = true
+style = "#d5c4a1"
+truncation_length = 3
+truncate_to_repo = false
+truncation_symbol = ""
+read_only = " "
+read_only_style = "#cc241d"
+format = "[$path]($style)[$read_only]($read_only_style)"
+
+[username]
+show_always = false
+style_user  = "italic #928374"
+format = "[$user]($style)@"
+
+[hostname]
+ssh_only = true
+style    = "italic #928374"
+format   = "[$hostname]($style) "
+
+[git_branch]
+symbol = ""
+style  = "italic #928374"
+format = " [$branch]($style)"
+
+[git_status]
+style  = "italic #928374"
+format = " [$all_status$ahead_behind]($style)"
+modified  = "*"
+staged    = "+"
+untracked = "?"
+stashed   = "≡"
+ahead     = "↑${count}"
+behind    = "↓${count}"
+diverged  = "↑${ahead_count}↓${behind_count}"
+conflicted = "!"
+
+[conda]
+symbol = ""
+style  = "italic #928374"
+format = " [($environment)]($style)"
+ignore_base = false
 
 [cmd_duration]
 min_time = 2000
-format = "took [$duration]($style) "
+style    = "italic #928374"
+format   = " [${duration}]($style)"
 
-[conda]
-# shown when a conda/mamba environment is active
-format = "[$symbol$environment]($style) "
+[time]
+disabled    = false
+time_format = "%H:%M"
+style       = "italic #928374"
+format      = "[$time]($style)"
