@@ -5,3 +5,7 @@ theme = Gruvbox Dark
 background-opacity = 0.95
 macos-titlebar-style = transparent
 window-save-state = always
+
+# Left Option → Alt (Meta in Emacs / `M-x`, vim, readline, etc.)
+# Right Option stays native, so the OS can still type é, ü, …
+macos-option-as-alt = left
