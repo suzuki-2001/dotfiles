@@ -6,6 +6,7 @@ background-opacity = 0.95
 macos-titlebar-style = transparent
 window-save-state = always
 
-# Left Option → Alt (Meta in Emacs / `M-x`, vim, readline, etc.)
-# Right Option stays native, so the OS can still type é, ü, …
-macos-option-as-alt = left
+# Both Option keys → Alt (Meta in Emacs / `M-x`, vim, readline, etc.)
+# Trade-off: macOS's accented character input (Option+v=√, Option+u=¨ …)
+# no longer reaches the terminal. Set this back to `left` if needed.
+macos-option-as-alt = true
