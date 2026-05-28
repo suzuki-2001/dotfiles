@@ -31,11 +31,11 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-;; gruvbox: doom-themes ships `doom-gruvbox' (dark) and `doom-gruvbox-light'.
-(setq doom-theme 'doom-gruvbox)
+;; Modern Doom Emacs dark — `doom-one` is the signature Doom theme
+;; (dark slate base with subtle blue/purple accents). Other modern dark
+;; alternatives shipped by doom-themes: `doom-tokyo-night`, `doom-palenight`,
+;; `doom-vibrant`, `doom-dracula`, `doom-monokai-pro`, `doom-nord`.
+(setq doom-theme 'doom-one)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -44,6 +44,21 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+
+
+;; --- Startup layout ---------------------------------------------------------
+;; Open the project tree (treemacs) on the left and a vterm popup at the bottom
+;; whenever Emacs starts. Both modules are enabled in init.el (treemacs, vterm).
+;; Focus returns to the main editing window so the prompt cursor lands there.
+(add-hook 'window-setup-hook
+          (lambda ()
+            (let ((main (selected-window)))
+              (when (fboundp 'treemacs)
+                (treemacs))
+              (when (fboundp '+vterm/toggle)
+                (+vterm/toggle nil))
+              (when (window-live-p main)
+                (select-window main)))))
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
