@@ -46,6 +46,21 @@
 (setq org-directory "~/org/")
 
 
+;; --- macOS: make left Option act as Meta ------------------------------------
+;; GUI Emacs on macOS treats Option as a normal modifier by default, so the
+;; only Meta key is ESC. Bind the LEFT Option to Meta, leave the RIGHT Option
+;; alone (so the OS can still type accented chars like é, ü), and map Command
+;; to Super. Sets both the NS-port and emacs-mac-port variables so the same
+;; config works whichever build you use.
+(when IS-MAC
+  (setq mac-option-modifier       'meta
+        mac-right-option-modifier 'none
+        mac-command-modifier      'super
+        ns-option-modifier        'meta
+        ns-right-option-modifier  'none
+        ns-command-modifier       'super))
+
+
 ;; --- Startup layout ---------------------------------------------------------
 ;; VSCode-like layout: treemacs as a left-side window (file tree), and a vterm
 ;; popup that spans the full frame width at the bottom (not just the bottom of
