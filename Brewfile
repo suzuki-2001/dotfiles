@@ -7,6 +7,7 @@ brew "chezmoi"   # dotfiles manager
 brew "git"
 brew "emacs"     # Doom Emacs needs Emacs 28+
 brew "cmake"     # builds the vterm native module
+brew "libtool"   # provides `glibtool`, required by libvterm's build
 brew "aerc"      # terminal mail client
 brew "w3m"       # renders text/html mail in aerc
 
