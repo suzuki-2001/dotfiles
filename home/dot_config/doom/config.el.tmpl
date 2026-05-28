@@ -49,13 +49,20 @@
 ;; --- Startup layout ---------------------------------------------------------
 ;; Open the project tree (treemacs) on the left and a vterm popup at the bottom
 ;; whenever Emacs starts. Both modules are enabled in init.el (treemacs, vterm).
-;; Focus returns to the main editing window so the prompt cursor lands there.
+;;
+;; First-run note: vterm needs its native C module compiled before it can run.
+;; To avoid the auto-open clashing with the one-time "Compile it now? (y/n)"
+;; prompt, we skip auto-opening vterm until `vterm-module` is loadable.
+;;   1. First Emacs launch — only treemacs opens.
+;;   2. Run `M-x vterm`, answer `y` at the prompt, wait ~1 min for build.
+;;   3. Restart Emacs — vterm now auto-opens alongside treemacs.
 (add-hook 'window-setup-hook
           (lambda ()
             (let ((main (selected-window)))
               (when (fboundp 'treemacs)
                 (treemacs))
-              (when (fboundp '+vterm/toggle)
+              (when (and (fboundp '+vterm/toggle)
+                         (require 'vterm-module nil t))
                 (+vterm/toggle nil))
               (when (window-live-p main)
                 (select-window main)))))
